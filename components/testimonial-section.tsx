@@ -1,4 +1,6 @@
 'use client';
+import { useRef, useEffect } from 'react';
+import { motion, useAnimation, useInView } from 'framer-motion';
 
 export default function TestimonialSection() {
   const testimonials = [
@@ -34,112 +36,169 @@ export default function TestimonialSection() {
     },
   ];
 
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, amount: 0.2 });
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (isInView) {
+      controls.start('visible');
+    }
+  }, [controls, isInView]);
+
   return (
-    <div className="w-full py-12 px-4 bg-[#080510] text-white">
+    <motion.div
+      ref={ref}
+      className="w-full py-12 px-4 bg-[#080510] text-white overflow-hidden"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
       <div className="relative overflow-hidden px-0 mx-auto">
-        {/* First row */}
-        <div className="flex mb-6 relative" style={{ marginLeft: '-340px' }}>
-          <div className="flex" style={{ width: 'calc(100% + 480px/2)' }}>
-            {testimonials.slice(0, 4).map((testimonial, index) => (
-              <div
-                key={index}
-                className={`w-[480px] px-4 flex-shrink-0 relative ${
-                  index === 0 ? 'first-card' : index === 3 ? 'last-card' : ''
-                }`}
-              >
-                <div className="max-w-md rounded-2xl p-px bg-gradient-to-b from-gray-800 to-transparent">
-                  {/* Inner Content with Background */}
-                  <div className="rounded-[calc(1rem-1px)] p-6 bg-gradient-to-b from-[#0F0C18] via-[#0D0A17] to-[#110828]">
-                    <div className="flex flex-row items-center gap-3 mb-5   ">
-                      <div
-                        className="w-[45px] h-[45px] bg-gray-400 bg-cover bg-center rounded-full"
-                        style={{
-                          backgroundImage:
-                            'url(/placeholder.svg?height=45&width=45)',
-                        }}
-                      ></div>
-                      <div className="flex flex-col gap-1">
-                        <p className="text-white font-medium text-[16px] leading-[22px]">
-                          {testimonial.name}
-                        </p>
-                        <p className="text-[#868392] font-medium text-[14px] leading-[19px]">
-                          {testimonial.role}
-                        </p>
-                      </div>
-                    </div>
-                    <p className="text-[#ACA7BD] font-medium text-sm leading-[22px]">
-                      {testimonial.text}
-                    </p>
-                  </div>
-                </div>
+        <div className="relative">
+          {/* Gradient Fade Effect - Left */}
+          <div className="absolute top-0 left-0 w-32 h-full z-20 pointer-events-none">
+            <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent"></div>
+          </div>
 
-                {/* Gradient overlays */}
-                {index === 0 && (
-                  <div className="absolute top-0 right-0 w-1/2 h-full z-20 pointer-events-none">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#110828] to-[#110828]"></div>
+          <motion.div
+            className="flex mb-6 relative overflow-x-auto pb-4 pr-4 hide-scrollbar"
+            style={{
+              marginLeft: '-340px',
+              scrollbarWidth: 'none', // For Firefox
+              msOverflowStyle: 'none', // For IE & Edge
+            }}
+            initial={{ x: -50, opacity: 0 }}
+            animate={isInView ? { x: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+          >
+            <div
+              className="flex hide-scrollbar"
+              style={{
+                width: 'calc(100% + 480px/2)',
+                overflowX: 'auto',
+                WebkitOverflowScrolling: 'touch', // Smooth scrolling
+              }}
+            >
+              {testimonials.slice(0, 4).map((testimonial, index) => (
+                <motion.div
+                  key={index}
+                  className="w-[480px] px-4 flex-shrink-0 relative"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  whileHover={{ y: -5 }}
+                >
+                  <div className="max-w-md rounded-2xl p-px bg-gradient-to-b from-gray-800 to-transparent">
+                    <div className="rounded-[calc(1rem-1px)] p-6 bg-gradient-to-b from-[#0F0C18] via-[#0D0A17] to-[#110828]">
+                      <div className="flex flex-row items-center gap-3 mb-5">
+                        <div
+                          className="w-[45px] h-[45px] bg-gray-400 bg-cover bg-center rounded-full"
+                          style={{ backgroundImage: 'url(/test1.png)' }}
+                        ></div>
+                        <div className="flex flex-col gap-1">
+                          <p className="text-white font-medium text-[16px] leading-[22px]">
+                            {testimonial.name}
+                          </p>
+                          <p className="text-[#868392] font-medium text-[14px] leading-[19px]">
+                            {testimonial.role}
+                          </p>
+                        </div>
+                      </div>
+                      <p className="text-[#ACA7BD] font-medium text-sm leading-[22px]">
+                        {testimonial.text}
+                      </p>
+                    </div>
                   </div>
-                )}
-                {index === 3 && (
-                  <div className="absolute top-0 left-0 w-1/2 h-full z-20 pointer-events-none">
-                    <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#110828] to-[#110828]"></div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Gradient Fade Effect - Right */}
+          <div className="absolute top-0 right-0 w-32 h-full z-20 pointer-events-none">
+            <div className="absolute inset-0 bg-gradient-to-l from-black to-transparent"></div>
+          </div>
+        </div>
+        <div className="relative">
+          {/* Gradient Fade Effect - Left */}
+          <div className="absolute top-0 left-0 w-32 h-full z-20 pointer-events-none">
+            <div className="absolute inset-0 bg-gradient-to-r from-black  to-transparent"></div>
+          </div>
+
+          <motion.div
+            className="flex mb-6 relative overflow-x-auto pb-4 pr-4 hide-scrollbar"
+            style={{
+              marginLeft: '-340px',
+              scrollbarWidth: 'none', // For Firefox
+              msOverflowStyle: 'none', // For IE & Edge
+            }}
+            initial={{ x: -50, opacity: 0 }}
+            animate={isInView ? { x: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+          >
+            <div
+              className="flex hide-scrollbar"
+              style={{
+                width: 'calc(100% + 480px/2)',
+                overflowX: 'auto',
+                WebkitOverflowScrolling: 'touch', // Smooth scrolling
+              }}
+            >
+              {testimonials.slice(0, 4).map((testimonial, index) => (
+                <motion.div
+                  key={index}
+                  className="w-[480px] px-4 flex-shrink-0 relative"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  whileHover={{ y: -5 }}
+                >
+                  <div className="max-w-md rounded-2xl p-px bg-gradient-to-b from-gray-800 to-transparent">
+                    <div className="rounded-[calc(1rem-1px)] p-6 bg-gradient-to-b from-[#0F0C18] via-[#0D0A17] to-[#110828]">
+                      <div className="flex flex-row items-center gap-3 mb-5">
+                        <div
+                          className="w-[45px] h-[45px] bg-gray-400 bg-cover bg-center rounded-full"
+                          style={{ backgroundImage: 'url(/test1.png)' }}
+                        ></div>
+                        <div className="flex flex-col gap-1">
+                          <p className="text-white font-medium text-[16px] leading-[22px]">
+                            {testimonial.name}
+                          </p>
+                          <p className="text-[#868392] font-medium text-[14px] leading-[19px]">
+                            {testimonial.role}
+                          </p>
+                        </div>
+                      </div>
+                      <p className="text-[#ACA7BD] font-medium text-sm leading-[22px]">
+                        {testimonial.text}
+                      </p>
+                    </div>
                   </div>
-                )}
-              </div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Gradient Fade Effect - Right */}
+          <div className="absolute top-0 right-0 w-32 h-full z-20 pointer-events-none">
+            <div className="absolute inset-0 bg-gradient-to-l from-black  to-transparent"></div>
           </div>
         </div>
 
-        {/* Second row */}
-        <div className="flex relative" style={{ marginLeft: '-240px' }}>
-          <div className="flex" style={{ width: 'calc(100% + 480px/2)' }}>
-            {testimonials.slice(2, 6).map((testimonial, index) => (
-              <div
-                key={index}
-                className={`w-[480px] px-4 flex-shrink-0 relative ${
-                  index === 0 ? 'first-card' : index === 3 ? 'last-card' : ''
-                }`}
-              >
-                <div className="max-w-md rounded-2xl p-px bg-gradient-to-b from-gray-800 to-transparent">
-                  {/* Inner Content with Background */}
-                  <div className="rounded-[calc(1rem-1px)] p-6 bg-gradient-to-b from-[#0F0C18] via-[#0D0A17] to-[#110828]">
-                    <div className="flex flex-row items-center gap-3 mb-5   ">
-                      <div
-                        className="w-[45px] h-[45px] bg-gray-400 bg-cover bg-center rounded-full"
-                        style={{
-                          backgroundImage:
-                            'url(/placeholder.svg?height=45&width=45)',
-                        }}
-                      ></div>
-                      <div className="flex flex-col gap-1">
-                        <p className="text-white font-medium text-[16px] leading-[22px]">
-                          {testimonial.name}
-                        </p>
-                        <p className="text-[#868392] font-medium text-[14px] leading-[19px]">
-                          {testimonial.role}
-                        </p>
-                      </div>
-                    </div>
-                    <p className="text-[#ACA7BD] font-medium text-sm leading-[22px]">
-                      {testimonial.text}
-                    </p>
-                  </div>
-                </div>
-                {/* Gradient overlays */}
-                {index === 0 && (
-                  <div className="absolute top-0 right-0 w-1/2 h-full z-20 pointer-events-none">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#110828] to-[#110828]"></div>
-                  </div>
-                )}
-                {index === 3 && (
-                  <div className="absolute top-0 left-0 w-1/2 h-full z-20 pointer-events-none">
-                    <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#110828] to-[#110828]"></div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
+        <style jsx global>{`
+          /* Hide scrollbar for WebKit browsers */
+          .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+          }
+
+          /* Hide scrollbar for Firefox */
+          .hide-scrollbar {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE & Edge */
+          }
+        `}</style>
       </div>
-    </div>
+    </motion.div>
   );
 }

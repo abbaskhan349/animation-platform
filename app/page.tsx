@@ -9,21 +9,15 @@ import {
   useInView,
   useAnimation,
 } from 'framer-motion';
-import { ChevronDown, Check, Plus, PlusIcon } from 'lucide-react';
-import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import ClientsSection from '@/components/ClientsSection';
-// import MaskGroup from "@/components/MaskGroup"
-import FeaturesSection from '@/components/features-sections';
 import PricingCard from '@/components/pricing/PricingCard';
 import Button from '@/components/Button';
 import DemoButton from '@/components/DemoButton';
 import AmazingButton from '@/components/AmazingButton';
-import IntegrationCard from '@/components/IntegrationCard';
 import WhyChooseUs from '@/components/WhyChooseUs';
-import TestimonialCard from '@/components/TestimonialCard';
-import GetStartedSection from '@/components/blue-glow-section';
 import TestimonialSection from '@/components/testimonial-section';
+import FAQSection from '@/components/faq-section';
 
 export default function Home() {
   const controls = useAnimation();
@@ -64,13 +58,13 @@ export default function Home() {
       {/* Hero Section */}
       <motion.section
         ref={heroRef}
-        className="relative py-16 md:py-24 px-6 md:px-12 lg:px-20"
+        className="relative pt-32 pb-16 md:py-24 px-6 md:px-12 lg:px-20"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 to-transparent opacity-30"></div>
-        <div className="max-w-4xl mx-auto text-center mb-16">
+        <div className="max-w-4xl mx-auto text-center mb-4 mt-20">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -87,21 +81,25 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-gray-400 mb-8"
+            className="text-gray-400 mb-8 px-4"
           >
             Unleash your creativity with our intuitive animation tool. Create
             stunning
-            <br />
+            <br className="hidden md:block" />
             custom animations that captivate your audience in just a few clicks.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex justify-center gap-4"
+            className="flex flex-col sm:flex-row justify-center gap-4"
           >
-            <Button height="46px">Try it now</Button>
-            <DemoButton>Book your demo</DemoButton>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button height="46px">Try it now</Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <DemoButton>Book your demo</DemoButton>
+            </motion.div>
           </motion.div>
         </div>
 
@@ -114,14 +112,13 @@ export default function Home() {
           <img
             src="/hero.png"
             alt="hero"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover rounded-lg"
           />
         </motion.div>
 
         <ClientsSection />
       </motion.section>
 
-      {/* Features Section */}
       <section
         id="features"
         ref={featuresRef}
@@ -247,20 +244,18 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* <IntegrationCard /> */}
 
       {/* Why Choose Us Section */}
-
       <section
-        id="pricing"
-        ref={pricingRef}
+        id="why-us"
+        ref={whyUsRef}
         className="py-16 md:py-24 px-6 md:px-12 lg:px-20"
       >
         <div className="max-w-7xl mx-auto">
           <motion.div
-            // initial={{ opacity: 0, y: 20 }}
-            // animate={isWhyUsInView ? { opacity: 1, y: 0 } : {}}
-            // transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isWhyUsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -272,7 +267,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className=" flex justify-center">
+          <div className="">
             <WhyChooseUs />
           </div>
         </div>
@@ -296,18 +291,20 @@ export default function Home() {
             </h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={isPricingInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.2 }}
+              whileHover={{ y: -10 }}
             >
               <PricingCard gradient="radial-gradient(circle, #10141A 0%, #0C121C 50%, #0A1017 100%)" />
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={isPricingInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              whileHover={{ y: -10 }}
             >
               <PricingCard
                 button="true"
@@ -317,7 +314,8 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={isPricingInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              whileHover={{ y: -10 }}
             >
               <PricingCard gradient="radial-gradient(circle, #10141A 0%,  #0C121C 50%, #0A1017 100%)" />
             </motion.div>
@@ -343,79 +341,7 @@ export default function Home() {
             </h2>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isFaqInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-4 mx-28"
-          >
-            <div
-              style={{
-                background:
-                  'radial-gradient(circle, #10141A 0%, #0C121C 50%, #0A1017 100%)',
-              }}
-              className=" border border-blue-900/30 rounded-xl overflow-hidden"
-            >
-              <button className="flex justify-between items-center w-full p-4 text-left">
-                <span className="font-medium">Can I use Animify for free?</span>
-                <PlusIcon className="h-5 w-5 text-blue-500" />
-              </button>
-            </div>
-            <div
-              style={{
-                background:
-                  'radial-gradient(circle, #13101A 0%, #0F0c18 50%, #0D0A17 100%)',
-              }}
-              className="bg-[#0a0a20] border border-blue-900/30 rounded-xl overflow-hidden"
-            >
-              <button className="flex justify-between items-center w-full p-4 text-left">
-                <span className="font-medium">
-                  Why should I upgrade to the Premium plan?
-                </span>
-                <PlusIcon className="h-5 w-5 text-blue-500" />
-              </button>
-            </div>
-            <div
-              style={{
-                background:
-                  'radial-gradient(circle, #10141A 0%, #0C121C 50%, #0A1017 100%)',
-              }}
-              className="bg-[#0a0a20] border border-blue-900/30 rounded-xl overflow-hidden"
-            >
-              <button className="flex justify-between items-center w-full p-4 text-left">
-                <span className="font-medium">
-                  How does collaborative editing work?
-                </span>
-                <PlusIcon className="h-5 w-5 text-blue-500" />
-              </button>
-            </div>
-            <div
-              style={{
-                background:
-                  'radial-gradient(circle, #13101A 0%, #0F0c18 50%, #0D0A17 100%)',
-              }}
-              className="bg-[#0a0a20] border border-blue-900/30 rounded-xl overflow-hidden"
-            >
-              <button className="flex justify-between items-center w-full p-4 text-left">
-                <span className="font-medium">
-                  How do I cancel my subscription?
-                </span>
-                <PlusIcon className="h-5 w-5 text-blue-500" />
-              </button>
-            </div>
-            <div
-              style={{
-                background:
-                  'radial-gradient(circle, #10141A 0%, #0C121C 50%, #0A1017 100%)',
-              }}
-              className="bg-[#0a0a20] border border-blue-900/30 rounded-xl overflow-hidden"
-            >
-              <button className="flex justify-between items-center w-full p-4 text-left">
-                <span className="font-medium">What is your refund policy?</span>
-                <PlusIcon className="h-5 w-5 text-blue-500" />
-              </button>
-            </div>
-          </motion.div>
+          <FAQSection />
         </div>
       </section>
 
@@ -423,7 +349,7 @@ export default function Home() {
       <section
         id="testimonials"
         ref={testimonialsRef}
-        className="py-16 md:py-24  bg-gradient-to-b from-transparent to-blue-950/10"
+        className="py-16 md:py-24 bg-gradient-to-b from-transparent to-blue-950/10"
       >
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -432,7 +358,7 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="text-center mb-5"
           >
-            <h3 className="text-4xl md:text-4xl font-semibold mb-4">
+            <h3 className="text-3xl md:text-4xl font-semibold mb-4">
               Our Customers
             </h3>
             <p className="text-gray-300 max-w-2xl mx-auto">
@@ -440,139 +366,144 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <main className="min-h-screen">
-            <TestimonialSection />
-          </main>
+          <TestimonialSection />
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 px-6 md:px-12 lg:px-20">
-        <div className="max-w-lg mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Get Started</h2>
-            <p className="text-gray-400 mb-8 text-lg">
-              Holds no opinions on what’s and how’s. Build whatever makes sense
-              to you.{' '}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      <motion.section
+        className="py-16 md:py-24 px-6 md:px-12 lg:px-20"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+      >
+        <motion.div
+          className="max-w-lg mx-auto text-center"
+          initial={{ y: 50 }}
+          whileInView={{ y: 0 }}
+          transition={{ duration: 0.5, type: 'spring' }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Get Started</h2>
+          <p className="text-gray-400 mb-8 text-lg">
+            Holds no opinions on what's and how's. Build whatever makes sense to
+            you.{' '}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button height="46px">Try it now</Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <DemoButton>Book your demo</DemoButton>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+            </motion.div>
+          </div>
+        </motion.div>
+      </motion.section>
 
       {/* Footer */}
       <footer className="py-12 px-6 md:px-12 lg:px-20 border-t border-blue-900/20">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
             <div>
-              <div className="text-2xl font-bold text-white flex items-center mb-4">
+              <motion.div
+                className="text-2xl font-bold text-white flex items-center mb-4"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+              >
                 <span className="text-blue-500">∞</span>
                 <span className="ml-1">Animify</span>
-              </div>
-              <p className="text-gray-400 text-sm mb-4">
+              </motion.div>
+              <motion.p
+                className="text-gray-400 text-sm mb-4"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                viewport={{ once: true }}
+              >
                 123 Animation St, Suite 100
                 <br />
                 San Francisco, CA 94107
                 <br />
                 United States
-              </p>
+              </motion.p>
             </div>
             <div>
               <h4 className="font-bold mb-4">Pages</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>
-                  <Link href="#" className="hover:text-white transition">
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition">
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition">
-                    Features
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition">
-                    Pricing
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition">
-                    Blog
-                  </Link>
-                </li>
+                {['Home', 'About', 'Features', 'Pricing', 'Blog'].map(
+                  (item, index) => (
+                    <motion.li
+                      key={item}
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: 0.1 + index * 0.05 }}
+                      viewport={{ once: true }}
+                    >
+                      <Link href="#" className="hover:text-white transition">
+                        {item}
+                      </Link>
+                    </motion.li>
+                  )
+                )}
               </ul>
             </div>
             <div>
               <h4 className="font-bold mb-4">Other Pages</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>
-                  <Link href="#" className="hover:text-white transition">
-                    Help
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition">
-                    FAQ
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition">
-                    Contact
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition">
-                    Terms & Conditions
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition">
-                    Privacy Policy
-                  </Link>
-                </li>
+                {[
+                  'Help',
+                  'FAQ',
+                  'Contact',
+                  'Terms & Conditions',
+                  'Privacy Policy',
+                ].map((item, index) => (
+                  <motion.li
+                    key={item}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.2 + index * 0.05 }}
+                    viewport={{ once: true }}
+                  >
+                    <Link href="#" className="hover:text-white transition">
+                      {item}
+                    </Link>
+                  </motion.li>
+                ))}
               </ul>
             </div>
             <div>
               <h4 className="font-bold mb-4">My Work</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>
-                  <Link href="#" className="hover:text-white transition">
-                    Projects
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition">
-                    Animations
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition">
-                    Templates
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-white transition">
-                    Resources
-                  </Link>
-                </li>
+                {['Projects', 'Animations', 'Templates', 'Resources'].map(
+                  (item, index) => (
+                    <motion.li
+                      key={item}
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: 0.3 + index * 0.05 }}
+                      viewport={{ once: true }}
+                    >
+                      <Link href="#" className="hover:text-white transition">
+                        {item}
+                      </Link>
+                    </motion.li>
+                  )
+                )}
               </ul>
             </div>
           </div>
-          <div className="border-t border-blue-900/20 mt-12 pt-6 text-center text-gray-500 text-sm">
+          <motion.div
+            className="border-t border-blue-900/20 mt-12 pt-6 text-center text-gray-500 text-sm"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            viewport={{ once: true }}
+          >
             © {new Date().getFullYear()} Animify. All rights reserved.
-          </div>
+          </motion.div>
         </div>
       </footer>
     </div>
